@@ -1,0 +1,42 @@
+var Page = require('../models').Page;
+var User = require('../models').User;
+var chai = require('chai');
+var expect = chai.expect;
+var spies = require('chai-spies');
+chai.use(spies);
+
+
+	describe('Page', function() {
+		before(function(done) {
+			Page.sync({force: true})
+			.then(function(){
+				done();
+			})
+			.catch(function(err){
+				done(err)
+			})
+		});
+		describe('General model testing',function(){
+			it('Makes a legit page',function(){
+			return Page.build({
+				title: 'Our page',
+				content: 'Really quality info',
+				status: 'open',
+				tags: 'fantastic,interesting,groundbreaking' 
+			}).save().then(function(page){
+				expect(page.title).to.equal('Our page');
+				expect(page.urlTitle).to.equal('Our_page');
+				expect(page.content).to.equal('Really quality info');
+				expect(page.status).to.equal('open');
+				expect(page.tags).to.equal(['fantastic','interesting','groundbreaking']);
+			})
+		})
+		})
+		describe('Instance methods',function(){
+
+		})
+		describe('Class methods',function(){
+
+		})
+
+	})
